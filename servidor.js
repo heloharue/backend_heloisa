@@ -27,7 +27,7 @@ let proximoId = 1;
 // de erro quando algo esta errado, ou null quando esta tudo certo.
 // ------------------------------------------------------------
 
-
+a
 
 // ------------------------------------------------------------
 // GET /treinos - lista todos os treinos
