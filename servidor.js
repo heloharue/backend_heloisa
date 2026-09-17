@@ -26,7 +26,6 @@ let proximoId = 1;
 // Escreva a funcao validarTreino(corpo), que devolve a mensagem
 // de erro quando algo esta errado, ou null quando esta tudo certo.
 // ------------------------------------------------------------
-
 function validarTreino(corpo) {
     if (typeof corpo.nome !== 'string' || corpo.nome.trim() === ''){
         return 'O campo nome e obrigatorio e deve ser um texto .';
