@@ -28,26 +28,19 @@ function validarTreino(corpo) {
 }
 
 // 7. GET /treinos/total (Declarada antes de /treinos/:id)
-app.get('/treinos/total', (req, res) => {
-  const resultado = db.prepare('SELECT COUNT(*) AS total FROM treinos').get();
-  res.status(200).json({ total: resultado.total });
+app.get('/treinos', (req, res) => {
+  const treinos = db.prepare('SELECT * FROM treinos').all();
+  res.status(200).json(treinos);
 });
 
 // 11. GET /treinos/resumo (Declarada antes de /treinos/:id)
-app.get('/treinos/resumo', (req, res) => {
-  const resultado = db.prepare(`
-    SELECT 
-      COUNT(*) AS total, 
-      COALESCE(SUM(duracao), 0) AS minutos, 
-      COALESCE(AVG(duracao), 0) AS media 
-    FROM treinos
-  `).get();
-
-  res.status(200).json({
-    total: resultado.total,
-    minutos: resultado.minutos,
-    media: resultado.media
-  });
+app.get('/treinos/:id', (req, res) => {
+  const id = Number(req.params.id);
+  const treino = db.prepare('SELECT * FROM treinos WHERE id = ?').get(id);
+  if (treino === undefined) {
+    return res.status(404).json({ erro: 'Treino nao encontrado.' });
+  }
+  res.status(200).json(treino);
 });
 
 // READ (Listar todos com Filtro, Ordenação e Busca por Nome - Ex 8, 9, 10)
@@ -96,66 +89,46 @@ app.get('/treinos/:id', (req, res) => {
 // CREATE (Adicionar novo treino)
 app.post('/treinos', (req, res) => {
   const erro = validarTreino(req.body);
-  if (erro !== null) {
+  if (erro !== null){
     return res.status(400).json({ erro: erro });
   }
-
+  
+  // Insere no banco
   const resultado = db
     .prepare('INSERT INTO treinos (nome, duracao) VALUES (?, ?)')
     .run(req.body.nome, req.body.duracao);
-
+  
+  // Busca o treino recem-criado para devolver com o id gerado
   const novo = db
     .prepare('SELECT * FROM treinos WHERE id = ?')
     .get(resultado.lastInsertRowid);
-
   res.status(201).json(novo);
 });
 
 // UPDATE (Atualizar treino por ID)
 app.put('/treinos/:id', (req, res) => {
-  const idParam = req.params.id;
-  const id = Number(idParam);
-
-  if (!Number.isInteger(id) || String(id) !== idParam.trim()) {
-    return res.status(400).json({ erro: 'O id informado deve ser um numero inteiro.' });
-  }
-
+  const id = Number(req.params.id);
   const treino = db.prepare('SELECT * FROM treinos WHERE id = ?').get(id);
   if (treino === undefined) {
     return res.status(404).json({ erro: 'Treino nao encontrado.' });
   }
-
   const erro = validarTreino(req.body);
-  if (erro !== null) {
+  if (erro !== null){
     return res.status(400).json({ erro: erro });
   }
-
   db.prepare('UPDATE treinos SET nome = ?, duracao = ? WHERE id = ?')
     .run(req.body.nome, req.body.duracao, id);
-
   const atualizado = db.prepare('SELECT * FROM treinos WHERE id = ?').get(id);
   res.status(200).json(atualizado);
 });
 
 // DELETE (Remover treino por ID)
 app.delete('/treinos/:id', (req, res) => {
-  const idParam = req.params.id;
-  const id = Number(idParam);
-
-  if (!Number.isInteger(id) || String(id) !== idParam.trim()) {
-    return res.status(400).json({ erro: 'O id informado deve ser um numero inteiro.' });
-  }
-
+  const id = Number(req.params.id);
   const treino = db.prepare('SELECT * FROM treinos WHERE id = ?').get(id);
   if (treino === undefined) {
     return res.status(404).json({ erro: 'Treino nao encontrado.' });
   }
-
   db.prepare('DELETE FROM treinos WHERE id = ?').run(id);
   res.status(204).end();
-});
-
-// Inicialização do servidor
-app.listen(3000, () => {
-  console.log('Servidor executando na porta 3000');
 });
