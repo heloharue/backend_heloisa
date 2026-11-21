@@ -1,3 +1,15 @@
-Heloisa, seu repositório fechou em 1,4 de 2,5. Na aula 2, a API passou nos 10 testes no commit db40f23, de 25/09. Na aula 3, a migração para SQLite passou nos 7 testes e nos 3 exercícios (total, filtro mínimo e ordenação) no commit db40f23, de 25/09. Os opcionais da aula 3 (busca, resumo e id inválido) também funcionaram, o que somou +0,1 na nota. Na aula 4, 3 de 8 testes passaram no commit 82c5b5b, de 23/10. Faltou: o servidor.js ainda tem SQL ou conexão com o banco, e deveria só ligar as rotas; o teste-banco2.js não existe ou termina com erro; o teste-service.js não existe ou termina com erro; o CRUD deixou de responder como na aula 3 depois da separação em camadas; e os dados não persistem depois de reiniciar o servidor. A regra dos 180 minutos, que devia estar em validarTreino no treinosService.js, não foi encontrada. A aula 5 não foi entregue. A aula 6 não foi entregue: não há bcrypt no package.json, nem criarUsuarios.js, e a senha continua em texto puro. Para entregar, falta instalar o bcrypt, gerar o hash no criarUsuarios.js, guardar só o senha_hash e comparar com await bcrypt.compare no authService.
+Heloisa, sua nota do repositório ficou em 1,7 de 3,0.
 
-Se tiver dúvida, fala na próxima aula.
+Olhei todos os seus commits até 20/11 às 23h59 e fiquei com o melhor resultado de cada aula, então o que você reentregou já entrou na conta. Cada aula vale um quinto da nota, metade pela entrega e metade pelos testes que passaram.
+
+Na aula 2 sua API passou nos 10 testes, no commit bf524e9 de 25/09.
+
+Na aula 3 passaram 7 de 7 testes do SQLite, no commit bf524e9 de 25/09. Os 3 exercícios (total, filtro mínimo e ordenação) funcionaram. Dos opcionais (busca, resumo e id inválido) funcionaram 3, e isso rendeu bônus.
+
+Na aula 4 passaram 3 de 8 testes, no commit 82c5b5b de 23/10. Os testes mostram que o servidor.js ainda tem SQL dentro dele, o teste-banco2.js não existe ou dá erro, o teste-service.js não existe ou dá erro, o CRUD não responde mais como na aula 3 e mais 1 coisa. A regra dos 180 minutos, que devia estar no validarTreino do treinosService.js, não está lá.
+
+A aula 5 não foi entregue, não existe sessoes.js nem as rotas de login, perfil e logout.
+
+A aula 6 não foi entregue, não tem bcrypt no package.json nem criarUsuarios.js, e a senha continua em texto puro.
+
+As notas estão fechadas. Se tiver dúvida, fala na próxima aula.
